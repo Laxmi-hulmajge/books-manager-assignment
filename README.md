@@ -50,7 +50,7 @@ If User Not Logged in then it redirected to the login page
 
 
 
-3. Front-End Display
+## 3. Front-End Display
 
 Single Book Template
 
@@ -90,7 +90,7 @@ WordPress Shortcodes API
 
 
 
-4. Responsive Design
+## 4. Responsive Design
 
 Responsive styling was added using custom CSS.
 
@@ -106,7 +106,7 @@ CSS file:
 `assets/css/style.css`
 
 
-5. Security \& Validation
+## 5. Security \& Validation
 All custom field inputs were sanitized before saving.
 
 
@@ -137,7 +137,7 @@ Theme Template:
 single-books.php
 
 
-Installation Instructions
+## Installation Instructions
 
 Step 1
 Install WordPress locally using XAMPP.
@@ -164,9 +164,9 @@ Step 6
 Publish the page and test frontend functionality.
 
 
-SEO & Website Strategy - Bacardi
+## SEO & Website Strategy - Bacardi
 
-1. High-Intent Keywords
+## 1. High-Intent Keywords
 
 1. Best cocktail recipes
 2. Easy rum cocktails
@@ -175,7 +175,7 @@ SEO & Website Strategy - Bacardi
 5. Summer party cocktails
 
 
-On-Page SEO Recommendations
+## On-Page SEO Recommendations
 Improve heading structure
 Optimize meta titles and descriptions
 Add internal links between cocktail recipe pages
@@ -183,7 +183,7 @@ Improve image alt text optimization
 Add FAQ schema markup for recipes
 
 
-UX Audit Recommendations
+## UX Audit Recommendations
 Issue 1: Slow Page Load Speed
 Solution: Optimize images, reduce unused scripts, and implement caching.
 
