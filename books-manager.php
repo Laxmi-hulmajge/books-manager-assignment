@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Books Manager
- * Description: Books management system for assignment.
+ * Description: Books management system using custom post type
  * Version: 1.0
  * Author: Laxmi Wadikar
  */
@@ -10,10 +10,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Register Books Custom Post Type
- */
-function bm_register_books_cpt() {
+ // Register Books Custom Post Type
+
+function bm_books_cpt() {
 
     $args = array(
         'label' => 'Books',
@@ -28,12 +27,11 @@ function bm_register_books_cpt() {
     register_post_type('books', $args);
 }
 
-add_action('init', 'bm_register_books_cpt');
+add_action('init', 'bm_books_cpt');
 
 
-/**
- * Add Meta Box
- */
+// Add Meta Box
+
 function bm_add_book_meta_boxes() {
 
     add_meta_box(
@@ -49,9 +47,7 @@ function bm_add_book_meta_boxes() {
 add_action('add_meta_boxes', 'bm_add_book_meta_boxes');
 
 
-/**
- * Meta Box Fields
- */
+
 function bm_book_details_callback($post) {
 
     $author = get_post_meta($post->ID, '_bm_author', true);
@@ -110,17 +106,15 @@ function bm_book_details_callback($post) {
 
     <?php
 }
-/**
- * Save Meta Box Data
- */
+
+ // Save Meta Box Data
+
 function bm_save_book_meta_data($post_id) {
 
-    // Prevent autosave
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
     }
 
-    // Save Author
     if (isset($_POST['bm_author'])) {
         update_post_meta(
             $post_id,
@@ -129,7 +123,6 @@ function bm_save_book_meta_data($post_id) {
         );
     }
 
-    // Save Genre
     if (isset($_POST['bm_genre'])) {
         update_post_meta(
             $post_id,
@@ -138,7 +131,6 @@ function bm_save_book_meta_data($post_id) {
         );
     }
 
-    // Save Published Date
     if (isset($_POST['bm_published_date'])) {
         update_post_meta(
             $post_id,
@@ -147,7 +139,6 @@ function bm_save_book_meta_data($post_id) {
         );
     }
 
-    // Save Description
     if (isset($_POST['bm_description'])) {
         update_post_meta(
             $post_id,
@@ -158,57 +149,50 @@ function bm_save_book_meta_data($post_id) {
 }
 
 add_action('save_post', 'bm_save_book_meta_data');
-/**
- * Restrict Books Access to Logged-in Users
- */
-function bm_restrict_books_access() {
 
-    // Check single book page
+
+  // Restrict Books Access to Logged-in Users
+
+function bm_books_access() {
+
     if (is_singular('books') && !is_user_logged_in()) {
 
-        wp_die(
-            'You must be logged in to view this content. Please log in or register.'
-        );
+        wp_redirect(wp_login_url());
+        exit;
     }
 
-    // Check books archive page
+
     if (is_post_type_archive('books') && !is_user_logged_in()) {
 
-        wp_die(
-            'You must be logged in to view this content. Please log in or register.'
-        );
+        wp_redirect(wp_login_url());
+        exit;
     }
 }
 
-add_action('template_redirect', 'bm_restrict_books_access');
+add_action('template_redirect', 'bm_books_access');
 
-/**
- * Books Listing Shortcode
- */
+// Books Listing Shortcode
+ 
 function bm_books_list_shortcode() {
 
-    // Restrict access
     if (!is_user_logged_in()) {
 
-        return '<p>You must be logged in to view this content. Please log in or register.</p>';
+        return '<p>You must be logged in to view this content.</p>';
     }
 
-    // Pagination
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
-    // Genre Filter
     $selected_genre = isset($_GET['genre'])
         ? sanitize_text_field($_GET['genre'])
         : '';
 
-    // Query Args
     $args = array(
         'post_type'      => 'books',
         'posts_per_page' => 5,
         'paged'          => $paged
     );
 
-    // Apply Genre Filter
+
     if (!empty($selected_genre)) {
 
         $args['meta_query'] = array(
@@ -268,7 +252,7 @@ function bm_books_list_shortcode() {
 
             ?>
 
-            <div style="border:1px solid #ddd; padding:20px; margin-bottom:20px;">
+            <div class="book-card">
 
                 <h2>
                     <a href="<?php the_permalink(); ?>">
@@ -312,9 +296,9 @@ function bm_books_list_shortcode() {
 
 add_shortcode('books_list', 'bm_books_list_shortcode');
 
-/**
- * Enqueue Styles
- */
+
+// Enqueue Styles
+ 
 function bm_enqueue_styles() {
 
     wp_enqueue_style(
