@@ -1,0 +1,31 @@
+.books-list {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.books-list div {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.books-list h2 {
+    margin-bottom: 10px;
+}
+
+.books-list a {
+    text-decoration: none;
+    color: #000;
+}
+
+.books-list a:hover {
+    color: #0073aa;
+}
+
+@media (max-width: 768px) {
+
+    .books-list div {
+        padding: 15px;
+    }
+}
